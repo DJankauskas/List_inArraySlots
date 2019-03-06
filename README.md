@@ -4,14 +4,45 @@
 Contributors: Darius Jankauskas and Greg Zborovsky
 
 # Class Fields, Constructor, and Methods
-public myList();
-public add(int index);
-public add(int index, Object value);
-public remove(int index);
-public get(index);
-public set(index, Object.value);
+
+private Object[] array;
+private int listLength;
+
+public MyList();
+
+public MyList(Object[] array);
+
+public MyList(MyList list); //Used to make a copy
+
+public void add(int index);
+
+public void add(int index, Object obj);
+
+public Object remove(int index);
+
+public Object get(int index);
+
+public void set(int index, Object obj);
+
+public int length();
+
+public void map(Function func);
+
+public MyList subList(int start);
+
+public MyList subList(int start, end);
+
+public int find(Object object);
+
+public int count(Object object);
+
+public String toString();
+
+public boolean equals(Object obj);
+
 
 # Features
+
 * Add an element to a specific position
 * Remove an element from a specific position
 * Access and change the value of an element at a specific position
