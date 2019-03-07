@@ -18,6 +18,14 @@ public class List_inArraySlots {
         capacity = 0;
     }
 
+    //not part of hw, but a useful convinience constructor
+    //copies list
+
+    public List_inArraySlots(List_inArraySlots copy) {
+        capacity = copy.capacity;
+        array = copyArray(copy.array, copy.array.length);
+    }
+
 
     /**
       @return the number of elements in this list
@@ -68,12 +76,7 @@ public class List_inArraySlots {
      private void expand() {
         //System.out.println( "expand... (for debugging)");
 
-        int[] oldArray = array;
-        array = new int[oldArray.length * 2];
-
-        for (int i = 0; i < oldArray.length; i++) {
-            array[i] = oldArray[i];
-        }
+        array = copyArray(array, array.length * 2);
 
            /* S.O.P. rules for debugging:
               Working methods should be silent. But during
@@ -81,5 +84,15 @@ public class List_inArraySlots {
               this method is called when that is appropriate.
               So test using the println(), then comment it out.
               */
+     }
+
+     //copies an array into another with specified length
+     //copyLength MUST be greater than or equal to the length of the copy array!
+     private static int[] copyArray(int[] copy, int copyLength) {
+        int[] array = new int[copyLength];
+        for (int i = 0; i < copy.length; i++) {
+            array[i] = copy[i];
+        }
+        return array;
      }
 }
