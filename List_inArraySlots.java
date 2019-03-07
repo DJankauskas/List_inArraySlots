@@ -60,7 +60,7 @@ public class List_inArraySlots {
       preserving existing data
      */
      private void expand() {
-        System.out.println( "expand... (for debugging)");
+        //System.out.println( "expand... (for debugging)");
 
         int[] oldArray = array;
         array = new int[oldArray.length * 2];
