@@ -131,6 +131,7 @@ public class MyArrayList<T> {
         for (int i = 0; i < capacity; i++) {
             T obj = (T) array[i];
             array[i] = operator.apply(obj);
+            System.out.println(array[i].getClass());
         }
         return this;
     }
