@@ -1,4 +1,4 @@
-import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
 /**
@@ -10,7 +10,7 @@ public class MyArrayList<T> {
 
     // declare fields here
 
-    private static int DEFAULT_SIZE = 10;
+    private static final int DEFAULT_SIZE = 10;
 
     private Object[] array;
     private int capacity;
@@ -60,7 +60,8 @@ public class MyArrayList<T> {
      public String toString() {
          String temp = "[";
          for (int i = 0; i < capacity; i++) {
-             temp += array[i] + (i == capacity - 1 ? "" : ", ");
+             //temp += array[i] + (i == capacity - 1 ? "" : ", ");
+             temp += array[i] + ",";
          }
          temp += "]";
          return temp;
@@ -134,10 +135,10 @@ public class MyArrayList<T> {
         return this;
     }
 
-    public MyArrayList filter(Function<T, Boolean> operator) {
+    public MyArrayList filter(Predicate<T> operator) {
         for (int i = 0; i < capacity; i++) {
             T obj = (T) array[i];
-            if (operator.apply(obj).equals(Boolean.FALSE)) {
+            if (!operator.test(obj)) {
                 remove(i);
                 i--;
             }

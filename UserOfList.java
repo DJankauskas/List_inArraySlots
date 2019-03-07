@@ -43,11 +43,13 @@ public class UserOfList {
         System.out.println(new MyArrayList<Integer>(list));
 
         System.out.println("NEW MAP");
-        System.out.println(new MyArrayList<Integer>(list).map( (num) -> ( num * 2) ));
+        System.out.println(new MyArrayList<Integer>(list).map( (num) -> ( num % 4) ).map( (num) -> ( num % 2) ));
 
         System.out.println("NEW FILTER");
         System.out.println(new MyArrayList<Integer>(list).filter( (num) -> ( num % 2 == 0) ));
 
+        System.out.println("COOL OP");
+        // System.out.println(new MyArrayList<Integer>(list).filter( (num) -> ( num % 2 == 0) ).map((num) -> (num % 4)));
 //        list.add(3, 3);
 //        System.out.println(list);
     }
