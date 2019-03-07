@@ -33,8 +33,14 @@ public class List_inArraySlots {
       */
     public String toString() {
         String temp = "[";
-        for (int i = 0; i < capacity; i++) {
-            temp += array[i] + (i == capacity - 1 ? "" : ", ");
+        int i;
+        //prints all but last element of list so no trailing comma is shown
+        for (i = 0; i < capacity - 1; i++) {
+            temp += array[i] + ", ";
+        }
+        //prints last element, if the container isn't empty
+        if(capacity > 0) {
+            temp += array[i];
         }
         temp += "]";
         return temp;
