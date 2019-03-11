@@ -41,14 +41,9 @@ public class List_inArraySlots {
       */
     public String toString() {
         String temp = "[";
-        int i;
         //prints all but last element of list so no trailing comma is shown
-        for (i = 0; i < capacity - 1; i++) {
-            temp += array[i] + ", ";
-        }
-        //prints last element, if the container isn't empty
-        if(capacity > 0) {
-            temp += array[i];
+        for (int i = 0; i < capacity - 1; i++) {
+            temp += array[i] + ",";
         }
         temp += "]";
         return temp;
@@ -61,10 +56,7 @@ public class List_inArraySlots {
       @return true, in keeping with conventions yet to be discussed
      */
      public boolean add( int value) {
-         if (capacity >= array.length) {
-             expand();
-         }
-         array[capacity++] = value;
+         add(capacity, value);
          return true;
      }
 
@@ -95,4 +87,82 @@ public class List_inArraySlots {
         }
         return array;
      }
+
+    /**
+     accessor
+     @return element @index from this list
+     precondition: @index is within the bounds of the array.
+     (Having warned the user about this precondition,
+     you should NOT complicate your code to check
+     whether user violated the condition.)
+     */
+    public int get( int index ) {
+        if (index > capacity - 1 || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+        return array[index];
+    }
+
+
+    /**
+     Set value at @index to @newValue
+     @return old value at @index
+     @precondition: @index is within the bounds of this list.
+     */
+    public int set( int index, int newValue ) {
+        if (index > capacity - 1 || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        int oldVal = array[index];
+
+        array[index] = newValue;
+
+        return oldVal;
+    }
+
+
+    /**
+     Insert @value at position @index in this list.
+     Shift the element currently at that position (if any)
+     and any subsequent elements to the right
+     (that is, increase the index associated with each).
+     */
+    public void add( int index, int value) {
+        if (index > capacity || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (capacity >= array.length) {
+            expand();
+        }
+
+        for (int i = capacity; i > index; i--) {
+            array[i] = array[i-1];
+        }
+
+        array[index] = value;
+        capacity++;
+    }
+
+
+    /**
+     Remove the element at position @index in this list.
+     Shift any subsequent elements to the left (that is,
+     decrease the index associated with each).
+     @return the value that was removed from the list
+     */
+    public int remove( int index) {
+        int removedElement = array[index];
+        if (index > capacity - 1 || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        for (int i = index; i < capacity; i++) {
+            array[i] = array[i+1];
+        }
+
+        capacity--;
+        return removedElement;
+    }
 }
