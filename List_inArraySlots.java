@@ -68,6 +68,68 @@ public class List_inArraySlots {
          return true;
      }
 
+     /**
+      accessor
+      @return element @index from this list
+      precondition: @index is within the bounds of the array.
+          (Having warned the user about this precondition,
+           you should NOT complicate your code to check
+           whether user violated the condition.)
+     */
+    public int get(int index) {
+        return array[index];
+    }
+
+
+    /**
+      Set value at @index to @newValue
+      @return old value at @index
+      @precondition: @index is within the bounds of this list.
+     */
+    public int set(int index, int newValue) {
+        int old = get(index);
+        array[index] = newValue;
+        return old;
+    }
+
+
+    /**
+      Insert @value at position @index in this list.
+      Shift the element currently at that position (if any)
+      and any subsequent elements to the right
+      (that is, increase the index associated with each).
+     */
+     public void add(int index, int value) {
+        if( capacity >= array.length) {
+            expand();
+        }
+        int previousValue = get(index);
+        int nextValue;
+        for (int setIndex = index; setIndex < capacity; setIndex++) {
+            nextValue = array[setIndex + 1];
+            array[setIndex + 1] = previousValue;
+            previousValue = nextValue;
+        }
+        array[index] = value;
+        capacity++;
+     }
+
+
+    /**
+      Remove the element at position @index in this list.
+      Shift any subsequent elements to the left (that is,
+      decrease the index associated with each).
+      @return the value that was removed from the list
+     */
+     public int remove( int index) {
+         int old = get(index);
+        for (int setIndex = index; setIndex < capacity - 1; setIndex++) {
+            array[setIndex] = array[setIndex + 1];
+        }
+        capacity--;
+        return old;
+     }
+
 
     /**
       Double the capacity of the List_inArraySlots,
@@ -85,6 +147,8 @@ public class List_inArraySlots {
               So test using the println(), then comment it out.
               */
      }
+
+     
 
      //copies an array into another with specified length
      //copyLength MUST be greater than or equal to the length of the copy array!
