@@ -43,7 +43,7 @@ public class UserOfList {
         System.out.println(new MyArrayList<Integer>(list));
 
         System.out.println("NEW MAP");
-        MyArrayList<Integer> thing = new MyArrayList<Integer>(list).map( (num) -> ( num % 4) );
+        //MyArrayList<Integer> thing = new MyArrayList<Integer>(list).map( (num) -> ( num % 4) );
         System.out.println(new MyArrayList<Integer>(list).map( (num) -> ( num % 4) ).map( (num) -> ( num % 2) ));
         //System.out.println(new MyArrayList<Integer>(list).map( (num) -> ( num % 4) ).get(2).getClass());
 

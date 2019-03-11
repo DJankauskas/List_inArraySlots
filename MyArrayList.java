@@ -127,7 +127,7 @@ public class MyArrayList<T> {
         return true;
     }
 
-    public MyArrayList map(UnaryOperator<T> operator) {
+    public MyArrayList<T> map(UnaryOperator<T> operator) {
         for (int i = 0; i < capacity; i++) {
             T obj = (T) array[i];
             array[i] = operator.apply(obj);
@@ -136,7 +136,7 @@ public class MyArrayList<T> {
         return this;
     }
 
-    public MyArrayList filter(Predicate<T> operator) {
+    public MyArrayList<T> filter(Predicate<T> operator) {
         for (int i = 0; i < capacity; i++) {
             T obj = (T) array[i];
             if (!operator.test(obj)) {
