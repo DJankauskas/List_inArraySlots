@@ -1,120 +1,86 @@
 /**
- * Implement a list of diverse types, including integers, double-precision
- * floating point numbers, and Strings.
+  Implement a list of integer elements, including
+  both data and operations.
  */
 
 public class List_inArraySlots {
 
-    private int[] intElements;
-    private double[] doubleElements;
-    private String[] stringElements;
-    private int filledElements; // the number of elements in this list
+    // declare fields here
 
-    /*
-     * type identifier for each element That is, typeOfElements[i] == 0 means
-     * element i is an integer; 1 means element i is a double; 2 means element i is
-     * a String. Optional extra education in programming (not comp sci): replace
-     * these "magic numbers" with an "enumerated type".
-     */
-    private int[] typeOfElements;
-
-    private static final int INITIAL_CAPACITY = 10;
-
-    private static final int INT_TYPE = 0;
-    private static final int DOUBLE_TYPE = 1;
-    private static final int STRING_TYPE = 2;
+    private int[] array;
+    private int capacity;
 
     /**
-     * Construct an empty list with a small initial capacity.
+      Construct an empty list with a small initial capacity.
      */
     public List_inArraySlots() {
-        intElements = new int[INITIAL_CAPACITY];
-        doubleElements = new double[INITIAL_CAPACITY];
-        stringElements = new String[INITIAL_CAPACITY];
-
-        typeOfElements = new int[INITIAL_CAPACITY];
+        array = new int[8];
+        capacity = 0;
     }
 
+    //not part of hw, but a useful convinience constructor
+    //copies list
+
+    public List_inArraySlots(List_inArraySlots copy) {
+        capacity = copy.capacity;
+        array = copyArray(copy.array, copy.array.length);
+    }
+
+
     /**
-     * @return the number of elements in this list
+      @return the number of elements in this list
      */
     public int size() {
-        return filledElements;
+        return capacity;
     }
 
-    /**
-     * @return a string representation of this list, in [a,b,c,] format
-     */
+
+     /**
+       @return a string representation of this list,
+       in [a,b,c,] format
+      */
     public String toString() {
         String temp = "[";
-        for (int i = 0; i < filledElements - 1; i++) {
-            temp += representationAtIndex(i) + ", ";
-        }
-        if (filledElements > 0) {
-            temp += representationAtIndex(filledElements - 1);
+        //prints all but last element of list so no trailing comma is shown
+        for (int i = 0; i < capacity - 1; i++) {
+            temp += array[i] + ",";
         }
         temp += "]";
         return temp;
     }
 
-    private String representationAtIndex(int i) {
-        switch (typeOfElements[i]) {
-        case INT_TYPE:
-            // "" for conversion to String
-            return "" + intElements[i];
-        case DOUBLE_TYPE:
-            return "" + doubleElements[i];
-        case STRING_TYPE:
-            return "\"" + stringElements[i] + "\"";
-        default:
-            return "!!!INTERNAL LOGIC ERROR!!!";
-        }
-    }
 
     /**
-     * Appends @value to the end of this list.
-     * 
-     * @return true, in keeping with conventions yet to be discussed
+      Appends @value to the end of this list.
+
+      @return true, in keeping with conventions yet to be discussed
      */
-    public boolean add(int type, int intValue, double doubleValue, String stringValue) {
-        if(filledElements >= intElements.length) {
-            expand();
-        }
-        typeOfElements[filledElements] = type;
-        switch (type) {
-            case INT_TYPE:
-            intElements[filledElements] = intValue;
-            break;
-            case DOUBLE_TYPE:
-            doubleElements[filledElements] = doubleValue;
-            break;
-            case STRING_TYPE:
-            stringElements[filledElements] = stringValue;
-            break;
-        }
-        filledElements++;
-        return true;
-    }
-
-    public GetValue get(int i) {
-        GetValue value = new GetValue();
-        value.type = typeOfElements[i];
-        value.intValue = intElements[i];
-        value.doubleValue = doubleElements[i];
-        value.stringValue = stringElements[i];
-        return value;
-    }
-
-    private void expand() {
-        //System.out.println( "expand... (for debugging)");
-
-        intElements = copyIntArray(intElements, intElements.length * 2);
-        doubleElements = copyDoubleArray(doubleElements, doubleElements.length * 2);
-        stringElements = copyStringArray(stringElements, stringElements.length * 2);
-        typeOfElements = copyIntArray(typeOfElements, typeOfElements.length * 2);
+     public boolean add( int value) {
+         add(capacity, value);
+         return true;
      }
 
-     private static int[] copyIntArray(int[] copy, int copyLength) {
+
+    /**
+      Double the capacity of the List_inArraySlots,
+      preserving existing data
+     */
+     private void expand() {
+        //System.out.println( "expand... (for debugging)");
+
+        array = copyArray(array, array.length * 2);
+
+           /* S.O.P. rules for debugging:
+              Working methods should be silent. But during
+              development, the programmer must verify that
+              this method is called when that is appropriate.
+              So test using the println(), then comment it out.
+              */
+     }
+
+     //copies an array into another with specified length
+     //copyLength MUST be greater than or equal to the length of the copy array!
+     private static int[] copyArray(int[] copy, int copyLength) {
         int[] array = new int[copyLength];
         for (int i = 0; i < copy.length; i++) {
             array[i] = copy[i];
@@ -122,19 +88,81 @@ public class List_inArraySlots {
         return array;
      }
 
-     private static double[] copyDoubleArray(double[] copy, int copyLength) {
-        double[] array = new double[copyLength];
-        for (int i = 0; i < copy.length; i++) {
-            array[i] = copy[i];
+    /**
+     accessor
+     @return element @index from this list
+     precondition: @index is within the bounds of the array.
+     (Having warned the user about this precondition,
+     you should NOT complicate your code to check
+     whether user violated the condition.)
+     */
+    public int get( int index ) {
+        if (index > capacity - 1 || index < 0) {
+            throw new IndexOutOfBoundsException();
         }
-        return array;
-     }
+        return array[index];
+    }
 
-     private static String[] copyStringArray(String[] copy, int copyLength) {
-        String[] array = new String[copyLength];
-        for (int i = 0; i < copy.length; i++) {
-            array[i] = copy[i];
+
+    /**
+     Set value at @index to @newValue
+     @return old value at @index
+     @precondition: @index is within the bounds of this list.
+     */
+    public int set( int index, int newValue ) {
+        if (index > capacity - 1 || index < 0) {
+            throw new IndexOutOfBoundsException();
         }
-        return array;
-     }
+
+        int oldVal = array[index];
+
+        array[index] = newValue;
+
+        return oldVal;
+    }
+
+
+    /**
+     Insert @value at position @index in this list.
+     Shift the element currently at that position (if any)
+     and any subsequent elements to the right
+     (that is, increase the index associated with each).
+     */
+    public void add( int index, int value) {
+        if (index > capacity || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (capacity >= array.length) {
+            expand();
+        }
+
+        for (int i = capacity; i > index; i--) {
+            array[i] = array[i-1];
+        }
+
+        array[index] = value;
+        capacity++;
+    }
+
+
+    /**
+     Remove the element at position @index in this list.
+     Shift any subsequent elements to the left (that is,
+     decrease the index associated with each).
+     @return the value that was removed from the list
+     */
+    public int remove( int index) {
+        int removedElement = array[index];
+        if (index > capacity - 1 || index < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        for (int i = index; i < capacity; i++) {
+            array[i] = array[i+1];
+        }
+
+        capacity--;
+        return removedElement;
+    }
 }
